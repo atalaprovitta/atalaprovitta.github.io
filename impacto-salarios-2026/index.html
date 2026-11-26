@@ -11,13 +11,15 @@ body{margin:0;background:#f4f6fa;color:#1c2733;font-family:-apple-system,BlinkMa
 header h1{font-size:23px;margin:0 0 4px;font-weight:700;color:#0f2e52}
 header p{margin:0;color:#5b6b7b;font-size:14px}
 .tag{display:inline-block;margin-top:10px;background:#e3edfb;color:#1458a8;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0 10px}
-.kpi{background:#fff;border:1px solid #e4e9f0;border-radius:14px;padding:16px 16px 14px;box-shadow:0 1px 2px rgba(16,42,80,.04)}
-.kpi .lbl{font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
-.kpi .val{font-size:26px;font-weight:750;margin-top:6px;color:#0f2e52}
-.kpi .sub{font-size:12px;color:#8190a0;margin-top:2px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:22px 0 10px}
+.kpi{background:#fff;border:1px solid #e4e9f0;border-radius:14px;padding:15px 14px 13px;box-shadow:0 1px 2px rgba(16,42,80,.04)}
+.kpi .lbl{font-size:11.5px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.kpi .val{font-size:23px;font-weight:750;margin-top:6px;color:#0f2e52}
+.kpi .sub{font-size:11.5px;color:#8190a0;margin-top:2px}
 .kpi.hl{background:linear-gradient(135deg,#0f3e7e,#1964b5);border-color:#0f3e7e}
 .kpi.hl .lbl{color:#bcd4f2}.kpi.hl .val{color:#fff}.kpi.hl .sub{color:#cfe0f5}
+.kpi.hl2{background:linear-gradient(135deg,#145e52,#1e8b78);border-color:#145e52}
+.kpi.hl2 .lbl{color:#bfe6dd}.kpi.hl2 .val{color:#fff}.kpi.hl2 .sub{color:#d3efe8}
 .card{background:#fff;border:1px solid #e4e9f0;border-radius:14px;padding:18px 18px 10px;margin-top:16px;box-shadow:0 1px 2px rgba(16,42,80,.04)}
 .card h2{font-size:15px;margin:0 0 2px;color:#0f2e52}
 .card p.cap{margin:0 0 10px;font-size:12.5px;color:#7a8896}
@@ -25,7 +27,7 @@ header p{margin:0;color:#5b6b7b;font-size:14px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .foot{margin-top:20px;font-size:12px;color:#6b7988}
 .foot b{color:#44525f}
-@media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+@media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
 </style>
 <div class="wrap">
 <header>
@@ -37,20 +39,21 @@ header p{margin:0;color:#5b6b7b;font-size:14px}
 <div class="kpis">
   <div class="kpi"><div class="lbl">Contratados</div><div class="val" id="k_contr"></div><div class="sub">en 126 búsquedas</div></div>
   <div class="kpi"><div class="lbl">Intermediaciones</div><div class="val" id="k_int"></div><div class="sub">personas intermediadas</div></div>
-  <div class="kpi hl"><div class="lbl">Impacto estimado</div><div class="val" id="k_oct"></div><div class="sub">salarios devengados ene–nov 2026</div></div>
-  <div class="kpi"><div class="lbl">Salario mensual promedio</div><div class="val" id="k_avg"></div><div class="sub">bruto por persona (devengado / meses)</div></div>
+  <div class="kpi hl"><div class="lbl">Impacto nominal</div><div class="val" id="k_nom"></div><div class="sub">pesos corrientes (ene–nov)</div></div>
+  <div class="kpi hl2"><div class="lbl">Impacto constante</div><div class="val" id="k_real"></div><div class="sub">pesos de nov-2026</div></div>
+  <div class="kpi"><div class="lbl">Salario mensual prom.</div><div class="val" id="k_avg"></div><div class="sub">bruto por persona</div></div>
 </div>
 
 <div class="card">
   <h2>Impacto económico por mes de contratación</h2>
-  <p class="cap">Salario generado por quienes ingresaron en cada mes, acumulado hasta noviembre 2026. En millones de pesos.</p>
+  <p class="cap">Salario generado por quienes ingresaron en cada mes, acumulado hasta noviembre 2026. Comparación nominal vs. constante (base nov-2026). En millones de pesos.</p>
   <div class="chartbox"><canvas id="cMes"></canvas></div>
 </div>
 
 <div class="grid2">
   <div class="card">
     <h2>Impacto por sector (CCT)</h2>
-    <p class="cap">Salario generado devengado a noviembre, en millones de pesos.</p>
+    <p class="cap">Salario nominal devengado a noviembre, en millones de pesos.</p>
     <div class="chartbox"><canvas id="cSec"></canvas></div>
   </div>
   <div class="card">
@@ -61,37 +64,41 @@ header p{margin:0;color:#5b6b7b;font-size:14px}
 </div>
 
 <div class="foot">
-  <p><b>Metodología.</b> Impacto = contratados × suma de los salarios mensuales del sector desde el mes de contratación hasta noviembre 2026 (devengado al día de hoy). Sin aguinaldo (SAC).</p>
-  <p>Salario base anclado en escalas reales de los convenios 2026 (SOM 281/96 maestranza, FAECYS 130/75 comercio, Camioneros, UTHGRA 389/04, UPSRA seguridad), con evolución mensual según paritaria por sector. Sectores sin convenio propio reasignados al CCT más afín. Fuente de datos: Tablero intermediación 2026 (pestaña Desgloce).</p>
+  <p><b>Metodología.</b> Impacto = contratados × suma de los salarios mensuales del sector desde el mes de contratación hasta noviembre 2026 (devengado al día de hoy). Sin aguinaldo (SAC). <b>Nominal</b>: pesos corrientes de cada mes. <b>Constante</b>: cada mes deflactado a pesos de noviembre 2026 con el IPC de la planilla SSDPH (factores mensuales acumulados).</p>
+  <p>Salario base anclado en escalas reales de los convenios 2026 (SOM 281/96 maestranza, FAECYS 130/75 comercio, Camioneros, UTHGRA 389/04, UPSRA seguridad), con evolución mensual según paritaria por sector. Sectores sin convenio propio reasignados al CCT más afín. Fuente: Tablero intermediación 2026 (pestaña Desgloce).</p>
 </div>
 </div>
 
 <script>
-const D={contr:223,int:1730,oct:1403061401,
+const D={contr:223,int:1730,nom:1403061401,real:1496649297,pm:1304,
 meses:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov"],
-oct_mes:[277766356,71234330,245800632,92194681,246586092,170040918,106950430,40336757,19750113,115714094,16686998],
+nom_mes:[277766356,71234330,245800632,92194681,246586092,170040918,106950430,40336757,19750113,115714094,16686998],
+real_mes:[307797087,77866527,266107291,98633391,261377976,178403899,111121056,41532631,20159807,116962635,16686998],
 sectores:["Limpieza","Comercio","Logística","Gastronomía","Mantenim. y Constr.","Producción","Educ. y Seguridad","Hotelería","Tecnología"],
 sec_contr:[99,65,34,12,6,2,1,2,2],
-sec_oct:[596247516,360611664,280523612,104430000,20806000,14548359,11704250,9350000,4840000],pm:1304};
+sec_nom:[596247516,360611664,280523612,104430000,20806000,14548359,11704250,9350000,4840000]};
 const nf=new Intl.NumberFormat('es-AR');
 const mill=v=>v/1e6;
 const fmtMM=v=>'$'+(v/1e9).toLocaleString('es-AR',{minimumFractionDigits:3,maximumFractionDigits:3})+' M.M.';
 document.getElementById('k_contr').textContent=nf.format(D.contr);
 document.getElementById('k_int').textContent=nf.format(D.int);
-document.getElementById('k_oct').textContent=fmtMM(D.oct);
-document.getElementById('k_avg').textContent='$'+nf.format(Math.round(D.oct/D.pm));
-const AZUL='#1964b5';
+document.getElementById('k_nom').textContent=fmtMM(D.nom);
+document.getElementById('k_real').textContent=fmtMM(D.real);
+document.getElementById('k_avg').textContent='$'+nf.format(Math.round(D.nom/D.pm));
+const AZUL='#1964b5',VERDE='#1e8b78';
 const PAL=['#0f3e7e','#1964b5','#3f87d6','#6aa8e6','#f2a93b','#e4733b','#7b8ea3','#59c3b0','#9b72c7'];
 Chart.defaults.font.family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif";
 Chart.defaults.font.size=12;Chart.defaults.color='#53616f';
 const moneyTick={callback:v=>'$'+nf.format(v)+'M'};
 new Chart(document.getElementById('cMes'),{type:'bar',
- data:{labels:D.meses,datasets:[{label:'Salario devengado a nov',data:D.oct_mes.map(mill),backgroundColor:AZUL,borderRadius:4}]},
+ data:{labels:D.meses,datasets:[
+  {label:'Nominal (corrientes)',data:D.nom_mes.map(mill),backgroundColor:AZUL,borderRadius:4},
+  {label:'Constante (base nov-26)',data:D.real_mes.map(mill),backgroundColor:VERDE,borderRadius:4}]},
  options:{responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+nf.format(Math.round(c.parsed.y))+' M'}}},
+  plugins:{legend:{position:'top',labels:{boxWidth:12}},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+nf.format(Math.round(c.parsed.y))+' M'}}},
   scales:{y:{ticks:moneyTick,grid:{color:'#eef2f7'}},x:{grid:{display:false}}}}});
 new Chart(document.getElementById('cSec'),{type:'bar',
- data:{labels:D.sectores,datasets:[{data:D.sec_oct.map(mill),backgroundColor:PAL,borderRadius:4}]},
+ data:{labels:D.sectores,datasets:[{data:D.sec_nom.map(mill),backgroundColor:PAL,borderRadius:4}]},
  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+nf.format(Math.round(c.parsed.x))+' M'}}},
   scales:{x:{ticks:moneyTick,grid:{color:'#eef2f7'}},y:{grid:{display:false}}}}});
