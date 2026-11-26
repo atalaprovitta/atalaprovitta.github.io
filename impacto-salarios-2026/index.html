@@ -20,52 +20,98 @@ header p{margin:0;color:#5b6b7b;font-size:14px}
 .kpi.hl .lbl{color:#bcd4f2}.kpi.hl .val{color:#fff}.kpi.hl .sub{color:#cfe0f5}
 .kpi.hl2{background:linear-gradient(135deg,#145e52,#1e8b78);border-color:#145e52}
 .kpi.hl2 .lbl{color:#bfe6dd}.kpi.hl2 .val{color:#fff}.kpi.hl2 .sub{color:#d3efe8}
-.card{background:#fff;border:1px solid #e4e9f0;border-radius:14px;padding:18px 18px 10px;margin-top:16px;box-shadow:0 1px 2px rgba(16,42,80,.04)}
+.sechead{margin:30px 0 2px;font-size:13px;font-weight:700;color:#1458a8;text-transform:uppercase;letter-spacing:.04em;border-top:2px solid #e4e9f0;padding-top:18px}
+.card{background:#fff;border:1px solid #e4e9f0;border-radius:14px;padding:18px 18px 10px;margin-top:14px;box-shadow:0 1px 2px rgba(16,42,80,.04)}
 .card h2{font-size:15px;margin:0 0 2px;color:#0f2e52}
 .card p.cap{margin:0 0 10px;font-size:12.5px;color:#7a8896}
 .chartbox{position:relative;height:320px}
+.chartbox.tall{height:380px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.foot{margin-top:20px;font-size:12px;color:#6b7988}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid #eef2f7}
+th{color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:.03em;position:sticky;top:0;background:#fff}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:hover{background:#f7faff}
+.tablebox{max-height:420px;overflow:auto;border:1px solid #eef2f7;border-radius:10px}
+.foot{margin-top:22px;font-size:12px;color:#6b7988}
 .foot b{color:#44525f}
 @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
 </style>
 <div class="wrap">
 <header>
-<h1>Impacto económico en salarios — Intermediación laboral 2026</h1>
-<p>Estimación de salarios generados por las personas contratadas vía intermediación. Gobierno de la Ciudad de Buenos Aires.</p>
+<h1>Impacto económico y contrataciones — Intermediación laboral 2026</h1>
+<p>Salarios generados y detalle de contrataciones por sector, empresa y área de gobierno. Ministerio de Desarrollo Humano y Hábitat — GCBA.</p>
 <span class="tag">Enero – Noviembre 2026 · actualizado 26/11/2026</span>
 </header>
 
 <div class="kpis">
-  <div class="kpi"><div class="lbl">Contratados</div><div class="val" id="k_contr"></div><div class="sub">en 126 búsquedas</div></div>
+  <div class="kpi"><div class="lbl">Contratados</div><div class="val" id="k_contr"></div><div class="sub">en 126 búsquedas · 52 empresas</div></div>
   <div class="kpi"><div class="lbl">Intermediaciones</div><div class="val" id="k_int"></div><div class="sub">personas intermediadas</div></div>
   <div class="kpi hl"><div class="lbl">Impacto nominal</div><div class="val" id="k_nom"></div><div class="sub">pesos corrientes (ene–nov)</div></div>
   <div class="kpi hl2"><div class="lbl">Impacto constante</div><div class="val" id="k_real"></div><div class="sub">pesos de nov-2026</div></div>
   <div class="kpi"><div class="lbl">Salario mensual prom.</div><div class="val" id="k_avg"></div><div class="sub">bruto por persona</div></div>
 </div>
 
+<div class="sechead">Impacto económico en salarios</div>
 <div class="card">
-  <h2>Impacto económico por mes de contratación</h2>
-  <p class="cap">Salario generado por quienes ingresaron en cada mes, acumulado hasta noviembre 2026. Comparación nominal vs. constante (base nov-2026). En millones de pesos.</p>
+  <h2>Impacto por mes de contratación</h2>
+  <p class="cap">Salario generado por quienes ingresaron en cada mes, acumulado hasta noviembre 2026. Nominal vs. constante (base nov-2026). En millones de pesos.</p>
   <div class="chartbox"><canvas id="cMes"></canvas></div>
 </div>
+<div class="card">
+  <h2>Impacto por sector (CCT)</h2>
+  <p class="cap">Salario nominal devengado a noviembre, en millones de pesos.</p>
+  <div class="chartbox"><canvas id="cSecImp"></canvas></div>
+</div>
 
+<div class="sechead">Contrataciones e intermediaciones</div>
 <div class="grid2">
   <div class="card">
-    <h2>Impacto por sector (CCT)</h2>
-    <p class="cap">Salario nominal devengado a noviembre, en millones de pesos.</p>
-    <div class="chartbox"><canvas id="cSec"></canvas></div>
+    <h2>Contrataciones por sector</h2>
+    <p class="cap">Personas contratadas en 2026 según el sector del puesto.</p>
+    <div class="chartbox"><canvas id="cSecC"></canvas></div>
   </div>
   <div class="card">
-    <h2>Contratados por sector</h2>
-    <p class="cap">Distribución de las 223 contrataciones.</p>
-    <div class="chartbox"><canvas id="cDon"></canvas></div>
+    <h2>Intermediaciones por sector</h2>
+    <p class="cap">Personas intermediadas en 2026 según el sector del puesto.</p>
+    <div class="chartbox"><canvas id="cSecI"></canvas></div>
+  </div>
+</div>
+<div class="grid2">
+  <div class="card">
+    <h2>Top empresas por personas contratadas</h2>
+    <p class="cap">12 empresas con más contrataciones (de 52 totales).</p>
+    <div class="chartbox tall"><canvas id="cEmpC"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Top empresas por personas intermediadas</h2>
+    <p class="cap">12 empresas con más intermediaciones.</p>
+    <div class="chartbox tall"><canvas id="cEmpI"></canvas></div>
+  </div>
+</div>
+<div class="card">
+  <h2>Detalle por empresa (52 empresas)</h2>
+  <p class="cap">Ordenado por personas contratadas. Intermediaciones y contrataciones vía intermediación, ene–nov 2026.</p>
+  <div class="tablebox"><table id="tEmp"><thead><tr><th>#</th><th>Empresa</th><th class="n">Intermediaciones</th><th class="n">Contratados</th></tr></thead><tbody></tbody></table></div>
+</div>
+
+<div class="sechead">Áreas de gobierno / programas</div>
+<div class="grid2">
+  <div class="card">
+    <h2>Intermediaciones por área</h2>
+    <p class="cap">Personas intermediadas según programa/área de origen (ATP, SC, CP, Género, Mugica, etc.).</p>
+    <div class="chartbox"><canvas id="cAreaI"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Contrataciones por área</h2>
+    <p class="cap">Personas contratadas según programa/área.</p>
+    <div class="chartbox"><canvas id="cAreaC"></canvas></div>
   </div>
 </div>
 
 <div class="foot">
-  <p><b>Metodología.</b> Impacto = contratados × suma de los salarios mensuales del sector desde el mes de contratación hasta noviembre 2026 (devengado al día de hoy). Sin aguinaldo (SAC). <b>Nominal</b>: pesos corrientes de cada mes. <b>Constante</b>: cada mes deflactado a pesos de noviembre 2026 con el IPC de la planilla SSDPH (factores mensuales acumulados).</p>
-  <p>Salario base anclado en escalas reales de los convenios 2026 (SOM 281/96 maestranza, FAECYS 130/75 comercio, Camioneros, UTHGRA 389/04, UPSRA seguridad), con evolución mensual según paritaria por sector. Sectores sin convenio propio reasignados al CCT más afín. Fuente: Tablero intermediación 2026 (pestaña Desgloce).</p>
+  <p><b>Impacto.</b> = contratados × suma de salarios mensuales del sector desde el mes de contratación hasta noviembre 2026 (devengado). Sin aguinaldo. Nominal = pesos corrientes; Constante = deflactado a pesos de nov-2026 (IPC planilla SSDPH).</p>
+  <p><b>Áreas de gobierno:</b> subpoblaciones registradas en el tablero (ATP, BPS/Otros, CP, CP Laboral, SC/690, GEN/Género, Adicciones, Territorio, Mugica, Adolescencia, 2da oportunidad). La suma por área de intermediados (1.687) es menor al total (1.730) porque algunas búsquedas no tienen desglose cargado. Fuente: Tablero intermediación 2026 (pestaña Desgloce).</p>
 </div>
 </div>
 
@@ -74,9 +120,13 @@ const D={contr:223,int:1730,nom:1403061401,real:1496649297,pm:1304,
 meses:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov"],
 nom_mes:[277766356,71234330,245800632,92194681,246586092,170040918,106950430,40336757,19750113,115714094,16686998],
 real_mes:[307797087,77866527,266107291,98633391,261377976,178403899,111121056,41532631,20159807,116962635,16686998],
-sectores:["Limpieza","Comercio","Logística","Gastronomía","Mantenim. y Constr.","Producción","Educ. y Seguridad","Hotelería","Tecnología"],
-sec_contr:[99,65,34,12,6,2,1,2,2],
-sec_nom:[596247516,360611664,280523612,104430000,20806000,14548359,11704250,9350000,4840000]};
+cct:["Limpieza","Comercio","Logística","Gastronomía","Mantenim. y Constr.","Producción","Educ. y Seguridad","Hotelería","Tecnología"],
+cct_nom:[596247516,360611664,280523612,104430000,20806000,14548359,11704250,9350000,4840000],
+sectores:[["Limpieza",98,407],["Comercio",65,733],["Logística",32,95],["Gastronomía",12,182],["Mantenim. y Constr.",6,33],["Otros",3,114],["Producción",2,61],["Tecnología",2,26],["Hotelería",2,22],["Educ. y Seguridad",1,35],["Call Center",0,18],["Administrativo",0,3],["Cuidados",0,1]],
+areaL:["ATP","SC","CP Laboral","BPS/Otros","GEN (Género)","Adolescencia","CP","Mugica"],
+areaI:[1182,324,79,41,23,23,10,5],
+areaC:[153,50,5,2,8,3,0,2],
+emp:[["Supermercado DIA",180,39],["Higiaeventos",126,33],["Consultores de Empresas",429,22],["Limpiolux",34,16],["Mica Producciones",45,13],["LX",70,12],["Degasa",172,7],["Grupo Efia",29,7],["Zamma",7,7],["Farmacity",29,6],["Oh Limpia",46,5],["Distribuidora Carmona",20,5],["Randstad",39,4],["Grupo CETA",34,4],["DINA",26,4],["Grupo L",18,4],["Gabriel Gomez Producciones",18,4],["Uadel",9,4],["Andres Moretti",21,3],["Pullmen",13,3],["EP Limpieza",9,3],["Hilton",22,2],["NTT DATA",15,2],["Interlim",13,2],["LTT Traslados",10,2],["Gran brizo Hotel",4,2],["VANTIA RH",55,1],["GG Group",15,1],["Albocar",10,1],["Cooperativa Lince",10,1],["LimpTech",4,1],["GCBA",4,1],["Dismay",2,1],["Estancia San Miguel",0,1],["EFES GROUP",43,0],["Carrefour",40,0],["CTEL Seguridad",25,0],["SST GRUPO FINANCIERO",17,0],["Cysol",13,0],["ProlijoLimp",10,0],["Monti",9,0],["Brubank",8,0],["Esinel",4,0],["Farmaplus",4,0],["Somos Feed",4,0],["Lancefllet",3,0],["Linksolution",3,0],["ADD",3,0],["Grupo Mitre",2,0],["Centro Integral de Estética Débora Ibáñez",2,0],["En Casa",1,0],["Luciana Gauna",1,0]]};
 const nf=new Intl.NumberFormat('es-AR');
 const mill=v=>v/1e6;
 const fmtMM=v=>'$'+(v/1e9).toLocaleString('es-AR',{minimumFractionDigits:3,maximumFractionDigits:3})+' M.M.';
@@ -85,25 +135,38 @@ document.getElementById('k_int').textContent=nf.format(D.int);
 document.getElementById('k_nom').textContent=fmtMM(D.nom);
 document.getElementById('k_real').textContent=fmtMM(D.real);
 document.getElementById('k_avg').textContent='$'+nf.format(Math.round(D.nom/D.pm));
-const AZUL='#1964b5',VERDE='#1e8b78';
-const PAL=['#0f3e7e','#1964b5','#3f87d6','#6aa8e6','#f2a93b','#e4733b','#7b8ea3','#59c3b0','#9b72c7'];
+const AZUL='#1964b5',VERDE='#1e8b78',NARA='#e4733b';
+const PAL=['#0f3e7e','#1964b5','#3f87d6','#6aa8e6','#f2a93b','#e4733b','#7b8ea3','#59c3b0','#9b72c7','#c56bb0','#8aa1b8'];
 Chart.defaults.font.family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif";
 Chart.defaults.font.size=12;Chart.defaults.color='#53616f';
-const moneyTick={callback:v=>'$'+nf.format(v)+'M'};
+const moneyM={callback:v=>'$'+nf.format(v)+'M'};
+const H=(id,labels,data,color,unit)=>new Chart(document.getElementById(id),{type:'bar',
+ data:{labels,datasets:[{data,backgroundColor:color,borderRadius:4}]},
+ options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>unit=='$'?('$'+nf.format(Math.round(c.parsed.x))+' M'):(nf.format(c.parsed.x)+' '+unit)}}},
+  scales:{x:{ticks:unit=='$'?moneyM:{precision:0},grid:{color:'#eef2f7'}},y:{grid:{display:false}}}}});
+// impacto mensual
 new Chart(document.getElementById('cMes'),{type:'bar',
  data:{labels:D.meses,datasets:[
   {label:'Nominal (corrientes)',data:D.nom_mes.map(mill),backgroundColor:AZUL,borderRadius:4},
   {label:'Constante (base nov-26)',data:D.real_mes.map(mill),backgroundColor:VERDE,borderRadius:4}]},
  options:{responsive:true,maintainAspectRatio:false,
   plugins:{legend:{position:'top',labels:{boxWidth:12}},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+nf.format(Math.round(c.parsed.y))+' M'}}},
-  scales:{y:{ticks:moneyTick,grid:{color:'#eef2f7'}},x:{grid:{display:false}}}}});
-new Chart(document.getElementById('cSec'),{type:'bar',
- data:{labels:D.sectores,datasets:[{data:D.sec_nom.map(mill),backgroundColor:PAL,borderRadius:4}]},
- options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+nf.format(Math.round(c.parsed.x))+' M'}}},
-  scales:{x:{ticks:moneyTick,grid:{color:'#eef2f7'}},y:{grid:{display:false}}}}});
-new Chart(document.getElementById('cDon'),{type:'doughnut',
- data:{labels:D.sectores,datasets:[{data:D.sec_contr,backgroundColor:PAL,borderWidth:2,borderColor:'#fff'}]},
- options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
-  plugins:{legend:{position:'right',labels:{boxWidth:11,font:{size:11}}},tooltip:{callbacks:{label:c=>c.label+': '+c.parsed+' contratados'}}}}});
+  scales:{y:{ticks:moneyM,grid:{color:'#eef2f7'}},x:{grid:{display:false}}}}});
+H('cSecImp',D.cct,D.cct_nom.map(mill),PAL,'$');
+const secC=D.sectores.filter(s=>s[1]>0);
+H('cSecC',secC.map(s=>s[0]),secC.map(s=>s[1]),PAL,'contratados');
+const secI=[...D.sectores].sort((a,b)=>b[2]-a[2]).filter(s=>s[2]>0);
+H('cSecI',secI.map(s=>s[0]),secI.map(s=>s[2]),'#3f87d6','intermediados');
+const topC=[...D.emp].sort((a,b)=>b[2]-a[2]).slice(0,12);
+H('cEmpC',topC.map(e=>e[0]),topC.map(e=>e[2]),AZUL,'contratados');
+const topI=[...D.emp].sort((a,b)=>b[1]-a[1]).slice(0,12);
+H('cEmpI',topI.map(e=>e[0]),topI.map(e=>e[1]),'#3f87d6','intermediados');
+H('cAreaI',D.areaL,D.areaI,PAL,'intermediados');
+H('cAreaC',D.areaL,D.areaC,PAL,'contratados');
+// tabla empresas
+const tb=document.querySelector('#tEmp tbody');
+D.emp.forEach((e,i)=>{const tr=document.createElement('tr');
+ tr.innerHTML='<td>'+(i+1)+'</td><td>'+e[0]+'</td><td class="n">'+nf.format(e[1])+'</td><td class="n">'+nf.format(e[2])+'</td>';
+ tb.appendChild(tr);});
 </script>
