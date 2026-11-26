@@ -38,7 +38,7 @@ header p{margin:0;color:#5b6b7b;font-size:14px}
   <div class="kpi"><div class="lbl">Contratados</div><div class="val" id="k_contr"></div><div class="sub">en 126 búsquedas</div></div>
   <div class="kpi"><div class="lbl">Intermediaciones</div><div class="val" id="k_int"></div><div class="sub">personas intermediadas</div></div>
   <div class="kpi hl"><div class="lbl">Impacto estimado</div><div class="val" id="k_oct"></div><div class="sub">salarios devengados ene–nov 2026</div></div>
-  <div class="kpi"><div class="lbl">Promedio por contratado</div><div class="val" id="k_avg"></div><div class="sub">salario generado a nov</div></div>
+  <div class="kpi"><div class="lbl">Salario mensual promedio</div><div class="val" id="k_avg"></div><div class="sub">bruto por persona (devengado / meses)</div></div>
 </div>
 
 <div class="card">
@@ -72,14 +72,14 @@ meses:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov"],
 oct_mes:[277766356,71234330,245800632,92194681,246586092,170040918,106950430,40336757,19750113,115714094,16686998],
 sectores:["Limpieza","Comercio","Logística","Gastronomía","Mantenim. y Constr.","Producción","Educ. y Seguridad","Hotelería","Tecnología"],
 sec_contr:[99,65,34,12,6,2,1,2,2],
-sec_oct:[596247516,360611664,280523612,104430000,20806000,14548359,11704250,9350000,4840000]};
+sec_oct:[596247516,360611664,280523612,104430000,20806000,14548359,11704250,9350000,4840000],pm:1304};
 const nf=new Intl.NumberFormat('es-AR');
 const mill=v=>v/1e6;
 const fmtMM=v=>'$'+(v/1e9).toLocaleString('es-AR',{minimumFractionDigits:3,maximumFractionDigits:3})+' M.M.';
 document.getElementById('k_contr').textContent=nf.format(D.contr);
 document.getElementById('k_int').textContent=nf.format(D.int);
 document.getElementById('k_oct').textContent=fmtMM(D.oct);
-document.getElementById('k_avg').textContent='$'+(D.oct/D.contr/1e6).toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})+' M';
+document.getElementById('k_avg').textContent='$'+nf.format(Math.round(D.oct/D.pm));
 const AZUL='#1964b5';
 const PAL=['#0f3e7e','#1964b5','#3f87d6','#6aa8e6','#f2a93b','#e4733b','#7b8ea3','#59c3b0','#9b72c7'];
 Chart.defaults.font.family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif";
