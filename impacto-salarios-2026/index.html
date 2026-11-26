@@ -31,7 +31,7 @@ header p{margin:0;color:#5b6b7b;font-size:14px}
 <header>
 <h1>Impacto económico en salarios — Intermediación laboral 2026</h1>
 <p>Estimación de salarios generados por las personas contratadas vía intermediación. Gobierno de la Ciudad de Buenos Aires.</p>
-<span class="tag">Enero – Noviembre 2026 · actualizado 25/11/2026</span>
+<span class="tag">Enero – Noviembre 2026 · actualizado 26/11/2026</span>
 </header>
 
 <div class="kpis">
@@ -55,7 +55,7 @@ header p{margin:0;color:#5b6b7b;font-size:14px}
   </div>
   <div class="card">
     <h2>Contratados por sector</h2>
-    <p class="cap">Distribución de las 341 contrataciones.</p>
+    <p class="cap">Distribución de las 223 contrataciones.</p>
     <div class="chartbox"><canvas id="cDon"></canvas></div>
   </div>
 </div>
@@ -67,12 +67,12 @@ header p{margin:0;color:#5b6b7b;font-size:14px}
 </div>
 
 <script>
-const D={contr:341,int:1730,oct:1543087989,
+const D={contr:223,int:1730,oct:1403061401,
 meses:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov"],
-oct_mes:[277766356,71234330,245800632,92194681,246586092,170040918,106950430,40336757,19750113,115714094,156713586],
+oct_mes:[277766356,71234330,245800632,92194681,246586092,170040918,106950430,40336757,19750113,115714094,16686998],
 sectores:["Limpieza","Comercio","Logística","Gastronomía","Mantenim. y Constr.","Producción","Educ. y Seguridad","Hotelería","Tecnología"],
-sec_contr:[99,183,34,12,6,2,1,2,2],
-sec_oct:[596247516,500638252,280523612,104430000,20806000,14548359,11704250,9350000,4840000]};
+sec_contr:[99,65,34,12,6,2,1,2,2],
+sec_oct:[596247516,360611664,280523612,104430000,20806000,14548359,11704250,9350000,4840000]};
 const nf=new Intl.NumberFormat('es-AR');
 const mill=v=>v/1e6;
 const fmtMM=v=>'$'+(v/1e9).toLocaleString('es-AR',{minimumFractionDigits:3,maximumFractionDigits:3})+' M.M.';
